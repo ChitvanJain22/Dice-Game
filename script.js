@@ -18,48 +18,65 @@ const init = function () {
   document.querySelector(".player--0").classList.add("player--active");
   document.querySelector(".player--1").classList.remove("player--active");
 };
+
+const closemodal = function () {
+  document.querySelector(".modal").classList.add("hidden");
+  document.querySelector(".overlay").classList.add("hidden");
+};
+
 init();
 
-const hold = function () {
-  if(playing){
-  let x = Number(document.getElementById(`score--${active_player}`).textContent);
-  document.getElementById(`score--${active_player}`).textContent = x + active_score;
-  document.getElementById(`current--${active_player}`).textContent = 0;
-  document.querySelector(`.player--${active_player}`).classList.remove("player--active");
-  active_score = 0;
-  const player_num = active_player + 1;
-  if (Number(document.getElementById(`score--${active_player}`).textContent) > 99) {
-    document.querySelector(`.player--${active_player}`).classList.add("player--winner");
+const hold = function (random) {
+  if (playing) {
+    if (random !== 1) {
+      let x = Number(document.getElementById(`score--${active_player}`).textContent);
+      document.getElementById(`score--${active_player}`).textContent = x + active_score;
+    }
+    document.getElementById(`current--${active_player}`).textContent = 0;
     document.querySelector(`.player--${active_player}`).classList.remove("player--active");
-    document.getElementById(`name--${active_player}`).textContent = `Player ${player_num} Wins`;
-    dice.classList.add("hidden");
-    playing = false;
+    active_score = 0;
+    const player_num = active_player + 1;
+    if (Number(document.getElementById(`score--${active_player}`).textContent) > 99) {
+      document.querySelector(`.player--${active_player}`).classList.add("player--winner");
+      document.querySelector(`.player--${active_player}`).classList.remove("player--active");
+      document.getElementById(`name--${active_player}`).textContent = `Player ${player_num} Wins`;
+      dice.classList.add("hidden");
+      playing = false;
+    }
+    active_player = active_player === 0 ? 1 : 0;
+    document.querySelector(`.player--${active_player}`).classList.add("player--active");
   }
-  active_player = active_player === 0 ? 1 : 0;
-  document.querySelector(`.player--${active_player}`).classList.add("player--active");
-}
 };
 
 // ---------roll dice-----------
 //show random dice number
 document.querySelector(".btn--roll").addEventListener("click", function () {
-  if(playing){
-  let random = Math.trunc(Math.random() * 6) + 1;
-  dice.classList.remove("hidden");
-  dice.src = `dice-${random}.png`;
-  //if not one face, then add to current score
-  if (random !== 1) {
-    active_score = active_score + random;
-    document.getElementById(`current--${active_player}`).textContent = active_score;
+  if (playing) {
+    let random = Math.trunc(Math.random() * 6) + 1;
+    dice.classList.remove("hidden");
+    dice.src = `dice-${random}.png`;
+    //if not one face, then add to current score
+    if (random !== 1) {
+      active_score = active_score + random;
+      document.getElementById(`current--${active_player}`).textContent = active_score;
+    }
+    // else change player
+    else {
+      hold(random);
+    }
   }
-  // else change player
-  else {
-    hold();
-  }
-}
 });
 
 //hold: change player
 document.querySelector(".btn--hold").addEventListener("click", hold);
 //new game: change player to 1
 document.querySelector(".btn--new").addEventListener("click", init);
+
+document.querySelector(".btn--rule").addEventListener("click", function () {
+  document.querySelector(".modal").classList.remove("hidden");
+  document.querySelector(".overlay").classList.remove("hidden");
+});
+
+document.querySelector(".close-modal").addEventListener("click", closemodal);
+document.addEventListener("keydown", closemodal);
+document.querySelector(".overlay").addEventListener("click", closemodal);

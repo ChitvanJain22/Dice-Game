@@ -30,7 +30,35 @@
       <button class="btn btn--new">🔄 New game</button>
       <button class="btn btn--roll">🎲 Roll dice</button>
       <button class="btn btn--hold">📥 Hold</button>
+      <button class="btn btn--rule">🎮 Rules</button>
     </main>
+    <div class="hidden modal">
+      <p class="rule-heading">Dice Game Rules</p>
+      <ol style="list-style-type: none">
+        <li><strong>Objective:</strong> Reach the winning score first which is 100 points.</li>
+        <li><strong>Setup:</strong> Two players with current and total scores displayed.</li>
+        <li>
+          <strong>Turns:</strong>
+          <ol style="list-style-type: disc; padding-left: 30px">
+            <li>Players take turns rolling a single dice.</li>
+            <li>Roll the dice by clicking "Roll Dice".</li>
+            <li>If the dice shows 2-6, add the number to the current score.</li>
+            <li>If the dice shows 1, reset the current score to 0 and switch turns.</li>
+          </ol>
+        </li>
+        <li>
+          <strong>Hold:</strong>
+          <ol style="list-style-type: disc; padding-left: 30px">
+            <li>At any time, a player can "Hold" to add the current score to their total score, reset the current score to 0, and switch turns.</li>
+          </ol>
+        </li>
+        <li><strong>Winning:</strong> The first player to reach the winning score wins, and a message is displayed.</li>
+        <li><strong>Switching Players:</strong> Highlight the active player and ensure the non-active player is not highlighted.</li>
+        <li><strong>Restarting:</strong> Click "New Game" to reset all scores and start anew.</li>
+      </ol>
+      <button class="close-modal">&times;</button>
+    </div>
+    <div class="hidden overlay"></div>
     <script src="script.js"></script>
   </body>
 </html>
